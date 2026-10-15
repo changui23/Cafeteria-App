@@ -177,7 +177,8 @@ public class CafeteriaApp {
             ventana.setLocationRelativeTo(null);
             cardLayout.show(pantallas, "mesas");
             nombreUsuarioMesas.setText(nombreUsuario.getText());
-        });
+        });JButton botonCafes = crearBoton("Cafes", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 90);
+        panelCategorias.add(botonCafes);
 
         // Boton Caja
         JButton botonCaja = crearBoton("Caja", 280, 530, 50, "#9A7B4F", "#ffffff", 670, 25);
@@ -224,7 +225,7 @@ public class CafeteriaApp {
         panelMesas.add(botonMesa1);
 
         botonMesa1.addActionListener(e -> {
-            
+            abrirMesa(1, ventana);
         });
 
         // Mesa 2
@@ -364,11 +365,8 @@ public class CafeteriaApp {
             int widthAnterior, 
             int heightAnterior) {
         
-        // Crear panel
-        JPanel panelNavegacion = new JPanel();
-        panelNavegacion.setLayout(null);
+        JPanel panelNavegacion = crearPanel(0, 0, width, 50);
         panelNavegacion.setBackground(Color.decode("#9A7B4F"));
-        panelNavegacion.setBounds(0, 0, width, 50);
 
         // Crear una etiqueta independiente para esta barra
         nombreUsuario.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -376,12 +374,7 @@ public class CafeteriaApp {
         nombreUsuario.setBounds(15, 0, 250, 50);
         panelNavegacion.add(nombreUsuario);
 
-        JButton botonRegresar = new JButton("Regresar");
-        botonRegresar.setFont(new Font("Arial", Font.BOLD, 18));
-        botonRegresar.setBackground(Color.WHITE);
-        botonRegresar.setForeground(Color.decode("#9A7B4F"));
-        botonRegresar.setFocusPainted(false);
-        botonRegresar.setBounds(width - 220, 5, 200, 40);
+        JButton botonRegresar = crearBoton("Regresar", 200, 40, 18, "#ffffff", "#9A7B4F", width -220, 5);
         panelNavegacion.add(botonRegresar);
 
         botonRegresar.addActionListener(e -> {
@@ -396,7 +389,7 @@ public class CafeteriaApp {
     // Crear Dialogo
     public static JDialog crearDialogo(JFrame ventana, String titulo, boolean modal, int width, int height) {
         JDialog dialogo = new JDialog(ventana, titulo, modal);
-        dialogo.setSize(350, 200);
+        dialogo.setSize(width, height);
         dialogo.setLocationRelativeTo(ventana);
         dialogo.setLayout(null);
 
@@ -405,22 +398,65 @@ public class CafeteriaApp {
 
     // Dialogo Mesas
     public static void abrirMesa(int numeroMesa, JFrame ventana) {
-        JDialog dialogoMesa = new JDialog(
-                ventana, "Mesa " + numeroMesa, true);
+        JDialog dialogoMesa = crearDialogo(ventana, "Mesa " + numeroMesa, true, 600, 600);
 
-        dialogoMesa.setSize(600, 400);
-        dialogoMesa.setLocationRelativeTo(ventana);
-        dialogoMesa.setLayout(new FlowLayout());
 
-        JLabel titulo = new JLabel("Mesa " + numeroMesa);
-        JButton botonProductos = new JButton("Agregar productos");
-        JButton botonCerrar = new JButton("Cerrar");
+        CardLayout cardLayout = new CardLayout();
+        JPanel panelProductos = new JPanel(cardLayout);
+
+        // Panel Navegacion
+        JPanel panelNavegacion = crearPanel(0, 0, 600, 50);
+        panelNavegacion.setBackground(Color.decode("#9A7B4F"));
+
+
+        JLabel titulo = crearLabel("Mesa " + numeroMesa, 20, 250, 5, 100, 40, "", "#ffffff");
+        panelNavegacion.add(titulo);
+
+        JButton botonCerrar = crearBoton("Cerrar", 100, 40, 18, "#ffffff", "#9A7B4F", 480, 5);
+        panelNavegacion.add(botonCerrar);
 
         botonCerrar.addActionListener(e -> dialogoMesa.dispose());
 
-        dialogoMesa.add(titulo);
-        dialogoMesa.add(botonProductos);
-        dialogoMesa.add(botonCerrar);
+        // Panel Categorias 
+        JPanel panelCategorias = crearPanel(0, 50, 300, 200);
+
+        JLabel labelCategorias = crearLabel("CATEGORIAS", 30, 20, 30, 200, 50, "", "");
+        panelCategorias.add(labelCategorias);
+
+        JButton botonCafes = crearBoton("Cafes", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 90);
+        panelCategorias.add(botonCafes);
+        botonCafes.addActionListener(e -> {
+            cardLayout.show(panelProductos, "Cafes");
+        });
+
+        JButton botonPostres = crearBoton("Postres", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 90);
+        panelCategorias.add(botonPostres);
+
+        JButton botonSnacks = crearBoton("Snacks", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 140);
+        panelCategorias.add(botonSnacks);
+
+        JButton botonBebidas = crearBoton("Bebidas", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 140);
+        panelCategorias.add(botonBebidas);
+
+        // Panel Productos
+        JPanel panelCafes = crearPanel(1, 1, 1, 1);
+
+        JLabel labelProductos = crearLabel("CAFES", 30, 20, 0, 200, 50, "", "");
+        panelProductos.add(labelProductos);
+
+        panelProductos.add(panelCafes, "cafes");
+
+        // Panel Cuenta
+        JPanel panelCuenta = crearPanel(300, 50, 300, 400);
+
+        // Panel Total
+        JPanel panelTotal = crearPanel(300, 450, 300, 150);
+
+        dialogoMesa.add(panelNavegacion);
+        dialogoMesa.add(panelCategorias);
+        dialogoMesa.add(panelProductos);
+        dialogoMesa.add(panelCuenta);
+        dialogoMesa.add(panelTotal);
 
         dialogoMesa.setVisible(true);
     }
