@@ -400,7 +400,7 @@ public class CafeteriaApp {
 
         JDialog dialogoMesa = crearDialogo(ventana, "Mesa " + numeroMesa, true, 600, 600);
 
-        JPanel panelProductos = crearPanel(0, 50, 300, 400);
+        JPanel panelProductos = crearPanel(0, 250, 300, 400);
         CardLayout cardLayout = new CardLayout();
         panelProductos.setLayout(cardLayout);
 
@@ -421,6 +421,7 @@ public class CafeteriaApp {
         JPanel panelCategorias = crearPanel(0, 50, 300, 200);
 
         JLabel labelCategorias = crearLabel("CATEGORIAS", 30, 20, 30, 200, 50, "", "");
+        labelCategorias.setHorizontalAlignment(SwingConstants.LEFT);
         panelCategorias.add(labelCategorias);
 
         JButton botonCafes = crearBoton("Cafes", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 90);
@@ -441,8 +442,9 @@ public class CafeteriaApp {
         // Panel Productos
         JPanel panelCafes = crearPanel(0, 0, 300, 400);
 
-        JLabel labelProductos = crearLabel("CAFES", 30, 20, 0, 200, 50, "", "");
-        panelCafes.add(labelProductos);
+        JLabel labelCafes = crearLabel("CAFES", 30, 20, 0, 200, 50, "", "");
+        labelCafes.setHorizontalAlignment(SwingConstants.LEFT);
+        panelCafes.add(labelCafes);
 
         panelProductos.add(panelCafes, "cafes");
 
