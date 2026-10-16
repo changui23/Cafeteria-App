@@ -15,13 +15,13 @@ public class CafeteriaApp {
             "Muffin", "Pay", "Crepa", "Cake Pop",
 
             // Snacks
-            "Sandwich", "Cuernito", "Panini", "Papas Francesas",
-            "Nachos", "Molletes", "Nuggets", "Dedos de Queso",
+            "Sandwich", "Cuernito", "Panini", "Papas",
+            "Nachos", "Molletes", "Nuggets", "Dedos Queso",
             "Hot Dog", "Chicken Bake",
 
             // Bebidas
-            "Malteada Chocolate", "Malteada Fresa", "Chocolate Caliente", "Frappe Chocolate",
-            "Frappe Vanilla", "Limonada", "Te Helado", "Horchata",
+            "Malteada", "Taro", "Hot Choco", "Frappe",
+            "Chai", "Limonada", "Te Helado", "Horchata",
             "Smoothie", "Matcha"
     };
 
@@ -40,7 +40,7 @@ public class CafeteriaApp {
     };
 
 
-    static int[][] cantidadesMesas = new int[7][10];
+    static int[][] cantidadesMesas = new int[7][40];
 
     static double totalCobradoDia = 0;
 
@@ -444,7 +444,7 @@ public class CafeteriaApp {
 
         JDialog dialogoMesa = crearDialogo(ventana, "Mesa " + numeroMesa, true, 600, 600);
 
-        // Panel productos
+        // Panel Productos
         JPanel panelProductos = crearPanel(0, 250, 300, 400);
         CardLayout cardLayout = new CardLayout();
         panelProductos.setLayout(cardLayout);
@@ -501,26 +501,30 @@ public class CafeteriaApp {
         JTextArea areaCuenta = new JTextArea();
         areaCuenta.setEditable(false);
 
+        JLabel labelCuenta = crearLabel("CUENTA", 30, 20, 30, 200, 50, "", "");
+        labelCuenta.setHorizontalAlignment(SwingConstants.LEFT);
+        panelCuenta.add(labelCuenta);
+
         JScrollPane scrollCuenta = new JScrollPane(areaCuenta);
-        scrollCuenta.setBounds(10, 10, 280, 380);
+        scrollCuenta.setBounds(10, 90, 280, 300);
 
         panelCuenta.add(scrollCuenta);
 
         // Panel Total
         JPanel panelTotal = crearPanel(300, 450, 300, 150);
 
+        JLabel labelTextoTotal = crearLabel("TOTAL", 30, 20, 0, 130, 40, "", "");
+        labelTextoTotal.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel labelTotal = crearLabel(
-                "Total: $0.00", 24, 10, 20, 280, 40, "", "");
-
+                "$0.00", 30, 150, 0, 130, 40, "", "#9A7B4F");
+        labelTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+        panelTotal.add(labelTextoTotal);
         panelTotal.add(labelTotal);
 
-        /*
-         * ==================
-         * PANEL DE PRODUCTOS
-         * ==================
-         */
+        // Panel de productos
 
         // Cafes
+
         JPanel panelCafes = crearPanel(0, 0, 300, 400);
 
         JLabel labelCafes = crearLabel("CAFES", 30, 20, 0, 200, 50, "", "");
@@ -574,11 +578,10 @@ public class CafeteriaApp {
     public static void crearBotonesProductos(int desfase, int numeroMesa, JTextArea areaCuenta, JLabel labelTotal,
             JPanel panelProductos) {
         for (int i = 0; i < 10; i++) {
-
             int x = (i % 2 == 0) ? 20 : 160;
             int y = (i % 2 == 0) ? 60 + 50 * i / 2 : 60 + 50 * (i - 1) / 2;
 
-            int indice = i=desfase;
+            int indice = i+desfase;
 
             JButton boton = crearBoton(
                     productos[i+desfase], 120, 40, 12,
@@ -622,6 +625,6 @@ public class CafeteriaApp {
         }
 
         labelTotal.setText(
-                "Total: $" + String.format("%.2f", total));
+                "$" + String.format("%.2f", total));
     }
 }
