@@ -3,6 +3,60 @@ import javax.swing.*;
 
 public class CafeteriaApp {
 
+    // Cafes
+    static String[] cafes = {
+    "Espresso", "Americano", "Cappuccino", "Latte",
+    "Mocaccino", "Moka", "Caramel Macchiato", "Olla",
+    "Affogato", "Flat White"
+    };
+
+    static double[] preciosCafes = {
+        30.0, 35.0, 45.0, 45.0,
+        50.0, 48.0, 55.0, 28.0,
+        52.0, 46.0
+    };
+
+    // Postres
+    static String[] postres = {
+            "Brownie", "Cheesecake", "Pastel Choco",
+            "Galleta", "Dona", "Rol Canela",
+            "Muffin", "Pay", "Crepa", "Cake Pop"
+    };
+
+    static double[] preciosPostres = {
+            35, 45, 40, 15, 18, 25, 22, 38, 45, 20
+    };
+
+    // Snacks
+    static String[] snacks = {
+    "Sandwich", "Cuernito", "Panini", "Papas Francesas",
+    "Nachos", "Molletes", "Nuggets", "Dedos de Queso",
+    "Hot Dog", "Chicken Bake"
+    };
+
+    static double[] preciosSnacks = {
+        55.0, 50.0, 65.0, 40.0,
+        45.0, 42.0, 50.0, 60.0,
+        38.0, 65.0
+    };
+
+    // Bebidas
+    static String[] bebidas = {
+    "Malteada Chocolate", "Malteada Fresa", "Chocolate Caliente", "Frappe Chocolate",
+    "Frappe Vanilla", "Limonada", "Te Helado", "Horchata",
+    "Smoothie", "Matcha"
+    };
+
+    static double[] preciosBebidas = {
+        55.0, 55.0, 45.0, 58.0,
+        55.0, 35.0, 32.0, 35.0,
+        50.0, 55.0
+    };
+
+    static int[][] cantidadesMesas = new int[7][10];
+
+    static double totalCobradoDia = 0;
+
     public static void main(String[] args) {
 
         String[] usuarioCajero = { "Error" };
@@ -444,9 +498,34 @@ public class CafeteriaApp {
 
         JButton botonSnacks = crearBoton("Snacks", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 140);
         panelCategorias.add(botonSnacks);
+        botonSnacks.addActionListener(e -> {
+            cardLayout.show(panelProductos, "snacks");
+        });
 
         JButton botonBebidas = crearBoton("Bebidas", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 140);
         panelCategorias.add(botonBebidas);
+        botonBebidas.addActionListener(e -> {
+            cardLayout.show(panelProductos, "bebidas");
+        });
+
+        // Panel Cuenta
+        JPanel panelCuenta = crearPanel(300, 50, 300, 400);
+
+        JTextArea areaCuenta = new JTextArea();
+        areaCuenta.setEditable(false);
+
+        JScrollPane scrollCuenta = new JScrollPane(areaCuenta);
+        scrollCuenta.setBounds(10, 10, 280, 380);
+
+        panelCuenta.add(scrollCuenta);
+
+        // Panel Total
+        JPanel panelTotal = crearPanel(300, 450, 300, 150);
+
+        JLabel labelTotal = crearLabel(
+                "Total: $0.00", 24, 10, 20, 280, 40, "", "");
+
+        panelTotal.add(labelTotal);
 
         /*
          * ==================
@@ -461,82 +540,40 @@ public class CafeteriaApp {
         labelCafes.setHorizontalAlignment(SwingConstants.LEFT);
         panelCafes.add(labelCafes);
 
-        JButton botonEspresso = crearBoton("Espresso", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 60);
-        panelCafes.add(botonEspresso);
+        crearBotonesProductos(cafes, numeroMesa, areaCuenta, preciosCafes, labelTotal, panelCafes);
 
-        JButton botonAmericano = crearBoton("Americano", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 60);
-        panelCafes.add(botonAmericano);
-
-        JButton botonCappuccino = crearBoton("Cappuccino", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 110);
-        panelCafes.add(botonCappuccino);
-
-        JButton botonLatte = crearBoton("Latte", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 110);
-        panelCafes.add(botonLatte);
-
-        JButton botonMocaccino = crearBoton("Mocaccino", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 160);
-        panelCafes.add(botonMocaccino);
-
-        JButton botonMoka = crearBoton("Moka", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 160);
-        panelCafes.add(botonMoka);
-
-        JButton botonMacchiato = crearBoton("Macchiato", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 210);
-        panelCafes.add(botonMacchiato);
-
-        JButton botonOlla = crearBoton("Olla", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 210);
-        panelCafes.add(botonOlla);
-
-        JButton botonAffogato = crearBoton("Affogato", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 260);
-        panelCafes.add(botonAffogato);
-
-        JButton botonFlatWhite = crearBoton("Flat White", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 260);
-        panelCafes.add(botonFlatWhite);
-
-        // Panel postres
+        // Postres
         JPanel panelPostres = crearPanel(0, 0, 300, 400);
 
         JLabel labelPostres = crearLabel("POSTRES", 30, 20, 0, 200, 50, "", "");
         labelPostres.setHorizontalAlignment(SwingConstants.LEFT);
         panelPostres.add(labelPostres);
 
-        JButton botonBrownie = crearBoton("Brownie", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 60);
-        panelPostres.add(botonBrownie);
+        crearBotonesProductos(postres, numeroMesa, areaCuenta, preciosPostres,labelTotal, panelPostres);
 
-        JButton botonCheeseCake = crearBoton("Cheesecake", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 60);
-        panelPostres.add(botonCheeseCake);
+        // Snacks
+        JPanel panelSnacks = crearPanel(0, 0, 300, 400);
 
-        JButton botonPastel = crearBoton("Pastel Choco", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 110);
-        panelPostres.add(botonPastel);
+        JLabel labelSnacks = crearLabel("SNACKS", 30, 20, 0, 200, 50, "", "");
+        labelSnacks.setHorizontalAlignment(SwingConstants.LEFT);
+        panelSnacks.add(labelSnacks);
 
-        JButton botonGalleta = crearBoton("Galleta", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 110);
-        panelPostres.add(botonGalleta);
+        crearBotonesProductos(snacks, numeroMesa, areaCuenta, preciosSnacks, labelTotal, panelSnacks);
 
-        JButton botonDona = crearBoton("Dona", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 160);
-        panelPostres.add(botonDona);
+        // Bebidas
+        JPanel panelBebidas = crearPanel(0, 0, 300, 400);
 
-        JButton botonRolCanela = crearBoton("Rol Canela", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 160);
-        panelPostres.add(botonRolCanela);
+        JLabel labelBebidas = crearLabel("BEBIDAS", 30, 20, 0, 200, 50, "", "");
+        labelBebidas.setHorizontalAlignment(SwingConstants.LEFT);
+        panelBebidas.add(labelBebidas);
 
-        JButton botonMuffin = crearBoton("Muffin", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 210);
-        panelPostres.add(botonMuffin);
-
-        JButton botonPay = crearBoton("Pay", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 210);
-        panelPostres.add(botonPay);
-
-        JButton botonCrepa = crearBoton("Crepa", 120, 40, 12, "#9A7B4F", "#ffffff", 20, 260);
-        panelPostres.add(botonCrepa);
-
-        JButton botonCakePop = crearBoton("Cake Pop", 120, 40, 12, "#9A7B4F", "#ffffff", 160, 260);
-        panelPostres.add(botonCakePop);
+        crearBotonesProductos(bebidas, numeroMesa, areaCuenta, preciosBebidas, labelTotal, panelBebidas);
 
         panelProductos.add(panelVacio, "vacio");
         panelProductos.add(panelCafes, "cafes");
         panelProductos.add(panelPostres, "postres");
-
-        // Panel Cuenta
-        JPanel panelCuenta = crearPanel(300, 50, 300, 400);
-
-        // Panel Total
-        JPanel panelTotal = crearPanel(300, 450, 300, 150);
+        panelProductos.add(panelBebidas, "bebidas");
+        panelProductos.add(panelSnacks, "snacks");
 
         dialogoMesa.add(panelNavegacion);
         dialogoMesa.add(panelCategorias);
@@ -545,5 +582,61 @@ public class CafeteriaApp {
         dialogoMesa.add(panelTotal);
 
         dialogoMesa.setVisible(true);
+    }
+
+    public static void crearBotonesProductos(String[] productos, int numeroMesa, JTextArea areaCuenta, double[] preciosProductos, JLabel labelTotal,
+            JPanel panelPostres) {
+        for (int i = 0; i < productos.length; i++) {
+
+            int x = (i % 2 == 0) ? 20 : 160;
+            int y = (i % 2 == 0) ? 60 + 50 * i / 2 : 60 + 50 * (i - 1) / 2;
+
+            int indice = i;
+
+            JButton boton = crearBoton(
+                    productos[i], 120, 40, 12,
+                    "#9A7B4F", "#ffffff", x, y);
+
+            boton.addActionListener(e -> {
+
+                cantidadesMesas[numeroMesa][indice]++;
+
+                actualizarCuenta(
+                        productos, numeroMesa, areaCuenta, preciosProductos,labelTotal);
+
+            });
+
+            panelPostres.add(boton);
+        }
+    }
+
+    public static void actualizarCuenta(
+            String[] productos,
+            int numeroMesa,
+            JTextArea areaCuenta,
+            double[] preciosProductos,
+            JLabel labelTotal) {
+
+        areaCuenta.setText("");
+        double total = 0;
+
+        for (int i = 0; i < productos.length; i++) {
+
+            int cantidad = cantidadesMesas[numeroMesa][i];
+
+            if (cantidad > 0) {
+
+                double subtotal = cantidad * preciosProductos[i];
+                total += subtotal;
+
+                areaCuenta.append(
+                        productos[i] + " x" + cantidad
+                                + " - $" + String.format("%.2f", subtotal)
+                                + "\n");
+            }
+        }
+
+        labelTotal.setText(
+                "Total: $" + String.format("%.2f", total));
     }
 }
