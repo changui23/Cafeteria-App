@@ -3,55 +3,42 @@ import javax.swing.*;
 
 public class CafeteriaApp {
 
-    // Cafes
-    static String[] cafes = {
-    "Espresso", "Americano", "Cappuccino", "Latte",
-    "Mocaccino", "Moka", "Caramel Macchiato", "Olla",
-    "Affogato", "Flat White"
-    };
+    static String[] productos = {
+            // Cafes
+            "Espresso", "Americano", "Cappuccino", "Latte",
+            "Mocaccino", "Moka", "Caramel Macchiato", "Olla",
+            "Affogato", "Flat White",
 
-    static double[] preciosCafes = {
-        30.0, 35.0, 45.0, 45.0,
-        50.0, 48.0, 55.0, 28.0,
-        52.0, 46.0
-    };
-
-    // Postres
-    static String[] postres = {
+            // Postres
             "Brownie", "Cheesecake", "Pastel Choco",
             "Galleta", "Dona", "Rol Canela",
-            "Muffin", "Pay", "Crepa", "Cake Pop"
+            "Muffin", "Pay", "Crepa", "Cake Pop",
+
+            // Snacks
+            "Sandwich", "Cuernito", "Panini", "Papas Francesas",
+            "Nachos", "Molletes", "Nuggets", "Dedos de Queso",
+            "Hot Dog", "Chicken Bake",
+
+            // Bebidas
+            "Malteada Chocolate", "Malteada Fresa", "Chocolate Caliente", "Frappe Chocolate",
+            "Frappe Vanilla", "Limonada", "Te Helado", "Horchata",
+            "Smoothie", "Matcha"
     };
 
-    static double[] preciosPostres = {
-            35, 45, 40, 15, 18, 25, 22, 38, 45, 20
+    static double[] precios = {
+            // Cafes
+            30, 35, 45, 45, 50, 48, 55, 28, 52, 46,
+
+            // Postres
+            35, 45, 40, 15, 18, 25, 22, 38, 45, 20,
+
+            // Snacks
+            55, 50, 65, 40, 45, 42, 50, 60, 38, 65,
+
+            //Bebidas
+            55, 55, 45, 58, 55, 35, 32, 35, 50, 55
     };
 
-    // Snacks
-    static String[] snacks = {
-    "Sandwich", "Cuernito", "Panini", "Papas Francesas",
-    "Nachos", "Molletes", "Nuggets", "Dedos de Queso",
-    "Hot Dog", "Chicken Bake"
-    };
-
-    static double[] preciosSnacks = {
-        55.0, 50.0, 65.0, 40.0,
-        45.0, 42.0, 50.0, 60.0,
-        38.0, 65.0
-    };
-
-    // Bebidas
-    static String[] bebidas = {
-    "Malteada Chocolate", "Malteada Fresa", "Chocolate Caliente", "Frappe Chocolate",
-    "Frappe Vanilla", "Limonada", "Te Helado", "Horchata",
-    "Smoothie", "Matcha"
-    };
-
-    static double[] preciosBebidas = {
-        55.0, 55.0, 45.0, 58.0,
-        55.0, 35.0, 32.0, 35.0,
-        50.0, 55.0
-    };
 
     static int[][] cantidadesMesas = new int[7][10];
 
@@ -540,7 +527,7 @@ public class CafeteriaApp {
         labelCafes.setHorizontalAlignment(SwingConstants.LEFT);
         panelCafes.add(labelCafes);
 
-        crearBotonesProductos(cafes, numeroMesa, areaCuenta, preciosCafes, labelTotal, panelCafes);
+        crearBotonesProductos(0, numeroMesa, areaCuenta, labelTotal, panelCafes);
 
         // Postres
         JPanel panelPostres = crearPanel(0, 0, 300, 400);
@@ -549,7 +536,7 @@ public class CafeteriaApp {
         labelPostres.setHorizontalAlignment(SwingConstants.LEFT);
         panelPostres.add(labelPostres);
 
-        crearBotonesProductos(postres, numeroMesa, areaCuenta, preciosPostres,labelTotal, panelPostres);
+        crearBotonesProductos(10, numeroMesa, areaCuenta, labelTotal, panelPostres);
 
         // Snacks
         JPanel panelSnacks = crearPanel(0, 0, 300, 400);
@@ -558,7 +545,7 @@ public class CafeteriaApp {
         labelSnacks.setHorizontalAlignment(SwingConstants.LEFT);
         panelSnacks.add(labelSnacks);
 
-        crearBotonesProductos(snacks, numeroMesa, areaCuenta, preciosSnacks, labelTotal, panelSnacks);
+        crearBotonesProductos(20, numeroMesa, areaCuenta, labelTotal, panelSnacks);
 
         // Bebidas
         JPanel panelBebidas = crearPanel(0, 0, 300, 400);
@@ -567,7 +554,7 @@ public class CafeteriaApp {
         labelBebidas.setHorizontalAlignment(SwingConstants.LEFT);
         panelBebidas.add(labelBebidas);
 
-        crearBotonesProductos(bebidas, numeroMesa, areaCuenta, preciosBebidas, labelTotal, panelBebidas);
+        crearBotonesProductos(30, numeroMesa, areaCuenta, labelTotal, panelBebidas);
 
         panelProductos.add(panelVacio, "vacio");
         panelProductos.add(panelCafes, "cafes");
@@ -584,17 +571,17 @@ public class CafeteriaApp {
         dialogoMesa.setVisible(true);
     }
 
-    public static void crearBotonesProductos(String[] productos, int numeroMesa, JTextArea areaCuenta, double[] preciosProductos, JLabel labelTotal,
-            JPanel panelPostres) {
-        for (int i = 0; i < productos.length; i++) {
+    public static void crearBotonesProductos(int desfase, int numeroMesa, JTextArea areaCuenta, JLabel labelTotal,
+            JPanel panelProductos) {
+        for (int i = 0; i < 10; i++) {
 
             int x = (i % 2 == 0) ? 20 : 160;
             int y = (i % 2 == 0) ? 60 + 50 * i / 2 : 60 + 50 * (i - 1) / 2;
 
-            int indice = i;
+            int indice = i=desfase;
 
             JButton boton = crearBoton(
-                    productos[i], 120, 40, 12,
+                    productos[i+desfase], 120, 40, 12,
                     "#9A7B4F", "#ffffff", x, y);
 
             boton.addActionListener(e -> {
@@ -602,19 +589,17 @@ public class CafeteriaApp {
                 cantidadesMesas[numeroMesa][indice]++;
 
                 actualizarCuenta(
-                        productos, numeroMesa, areaCuenta, preciosProductos,labelTotal);
+                        numeroMesa, areaCuenta, labelTotal);
 
             });
 
-            panelPostres.add(boton);
+            panelProductos.add(boton);
         }
     }
 
     public static void actualizarCuenta(
-            String[] productos,
             int numeroMesa,
             JTextArea areaCuenta,
-            double[] preciosProductos,
             JLabel labelTotal) {
 
         areaCuenta.setText("");
@@ -626,7 +611,7 @@ public class CafeteriaApp {
 
             if (cantidad > 0) {
 
-                double subtotal = cantidad * preciosProductos[i];
+                double subtotal = cantidad * precios[i];
                 total += subtotal;
 
                 areaCuenta.append(
