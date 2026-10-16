@@ -272,30 +272,45 @@ public class CafeteriaApp {
         botonMesa2.setBorder(BorderFactory.createLineBorder(
                 Color.decode("#9A7B4F"), 2));
         panelMesas.add(botonMesa2);
+        botonMesa2.addActionListener(e -> {
+            abrirMesa(2, ventana);
+        });
 
         // Mesa 3
         JButton botonMesa3 = crearBoton("Mesa 3", 380, 200, 30, "#ffffff", "#9A7B4F", 10, 220);
         botonMesa3.setBorder(BorderFactory.createLineBorder(
                 Color.decode("#9A7B4F"), 2));
         panelMesas.add(botonMesa3);
+        botonMesa3.addActionListener(e -> {
+            abrirMesa(3, ventana);
+        });
 
         // Mesa 4
         JButton botonMesa4 = crearBoton("Mesa 4", 380, 200, 30, "#ffffff", "#9A7B4F", 410, 220);
         botonMesa4.setBorder(BorderFactory.createLineBorder(
                 Color.decode("#9A7B4F"), 2));
         panelMesas.add(botonMesa4);
+        botonMesa4.addActionListener(e -> {
+            abrirMesa(4, ventana);
+        });
 
         // Mesa 5
         JButton botonMesa5 = crearBoton("Mesa 5", 380, 200, 30, "#ffffff", "#9A7B4F", 10, 430);
         botonMesa5.setBorder(BorderFactory.createLineBorder(
                 Color.decode("#9A7B4F"), 2));
         panelMesas.add(botonMesa5);
+        botonMesa5.addActionListener(e -> {
+            abrirMesa(5, ventana);
+        });
 
         // Mesa 6
         JButton botonMesa6 = crearBoton("Mesa 6", 380, 200, 30, "#ffffff", "#9A7B4F", 410, 430);
         botonMesa6.setBorder(BorderFactory.createLineBorder(
                 Color.decode("#9A7B4F"), 2));
         panelMesas.add(botonMesa6);
+        botonMesa6.addActionListener(e -> {
+            abrirMesa(6, ventana);
+        });
 
         // Para llevar
         JButton botonLlevar = crearBoton("Para Llevar", 300, 60, 30, "#9A7B4F", "#ffffff", 250, 650);
