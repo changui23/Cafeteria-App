@@ -42,7 +42,7 @@ public class CafeteriaApp {
 
     static int[][] cantidadesMesas = new int[7][40];
 
-    static double totalCobradoDia = 0;
+    static double[] totalCobradoDia = new double[7];
 
     public static void main(String[] args) {
 
@@ -521,6 +521,22 @@ public class CafeteriaApp {
         panelTotal.add(labelTextoTotal);
         panelTotal.add(labelTotal);
 
+        actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
+
+        JButton botonVaciarCuenta = crearBoton("Vaciar", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 60);
+        panelTotal.add(botonVaciarCuenta);
+        botonVaciarCuenta.addActionListener(e -> {
+            for (int i = 0; i < productos.length; i++) {
+            cantidadesMesas[numeroMesa][i] = 0;
+            }
+            actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
+        });
+
+        JButton botonGuardar = crearBoton("Cobrar", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 60);
+        panelTotal.add(botonGuardar);
+        botonGuardar.addActionListener(e -> {
+        });
+
         // Panel de productos
 
         // Cafes
@@ -627,4 +643,18 @@ public class CafeteriaApp {
         labelTotal.setText(
                 "$" + String.format("%.2f", total));
     }
+
+    public static double calcularTotalMesa(int numeroMesa) {
+
+    double total = 0;
+
+    for (int i = 0; i < productos.length; i++) {
+        total += cantidadesMesas[numeroMesa][i]
+               * precios[i];
+    }
+
+    return total;
+    }
+
+
 }
