@@ -3,6 +3,9 @@ import javax.swing.*;
 
 public class CafeteriaApp {
 
+    public static String colorCafeClaro = "#9A7B4F";
+    public static String colorBlanco = "#ffffff";
+
     static String[] productos = {
             // Cafes
             "Espresso", "Americano", "Cappuccino", "Latte",
@@ -35,10 +38,9 @@ public class CafeteriaApp {
             // Snacks
             55, 50, 65, 40, 45, 42, 50, 60, 38, 65,
 
-            //Bebidas
+            // Bebidas
             55, 55, 45, 58, 55, 35, 32, 35, 50, 55
     };
-
 
     static int[][] cantidadesMesas = new int[7][40];
 
@@ -76,7 +78,7 @@ public class CafeteriaApp {
         JLabel nombreCaf = crearLabel("Cafeteria el Cafe", 50, 50, 50, 500, 70, "", "");
 
         // crear boton
-        JButton botonEntrar = crearBoton("Entrar", 200, 50, 18, "#9A7B4F", "#ffffff", 200, 150);
+        JButton botonEntrar = crearBoton("Entrar", 200, 50, 18, colorCafeClaro, colorBlanco, 200, 150);
 
         // funcionalidad Boton Entrar
         botonEntrar.addActionListener(e -> {
@@ -114,7 +116,7 @@ public class CafeteriaApp {
         JTextField campoContrasena = crearTextField("", 4, 20, 150, 350, 300, 50);
 
         // Boton de inicio de sesión
-        JButton botonUsuarios = crearBoton("Aceptar", 200, 50, 18, "#9A7B4F", "#ffffff", 200, 420);
+        JButton botonUsuarios = crearBoton("Aceptar", 200, 50, 18, colorCafeClaro, colorBlanco, 200, 420);
 
         botonUsuarios.addActionListener(e -> {
             // Obtener los valores ingresados por el usuario
@@ -182,7 +184,7 @@ public class CafeteriaApp {
         JPanel panelCategorias = crearPanel(0, 50, 1000, 580);
 
         // Boton Dia
-        JButton botonDia = crearBoton("Dia", 280, 530, 50, "#9A7B4F", "#ffffff", 50, 25);
+        JButton botonDia = crearBoton("Dia", 280, 530, 50, colorCafeClaro, colorBlanco, 50, 25);
         panelCategorias.add(botonDia);
 
         // Dialogo Dia
@@ -193,7 +195,7 @@ public class CafeteriaApp {
 
             JTextField campoFechaDia = crearTextField(fecha.getText(), 10, 20, 100, 50, 150, 30);
 
-            JButton aceptarDia = crearBoton("Aceptar", 150, 60, 20, "#9A7B4F", "#ffffff", 100, 100);
+            JButton aceptarDia = crearBoton("Aceptar", 150, 60, 20, colorCafeClaro, colorBlanco, 100, 100);
 
             aceptarDia.addActionListener(ev -> {
                 fecha.setText(campoFechaDia.getText());
@@ -208,7 +210,7 @@ public class CafeteriaApp {
         });
 
         // Boton Mesas
-        JButton botonMesas = crearBoton("Mesas", 280, 530, 50, "#9A7B4F", "#ffffff", 360, 25);
+        JButton botonMesas = crearBoton("Mesas", 280, 530, 50, colorCafeClaro, colorBlanco, 360, 25);
         panelCategorias.add(botonMesas);
 
         botonMesas.addActionListener(e -> {
@@ -219,7 +221,7 @@ public class CafeteriaApp {
         });
 
         // Boton Caja
-        JButton botonCaja = crearBoton("Caja", 280, 530, 50, "#9A7B4F", "#ffffff", 670, 25);
+        JButton botonCaja = crearBoton("Caja", 280, 530, 50, colorCafeClaro, colorBlanco, 670, 25);
         panelCategorias.add(botonCaja);
 
         botonCaja.addActionListener(e -> {
@@ -228,7 +230,7 @@ public class CafeteriaApp {
 
         // Panel de abajo de categorías
         JPanel panelAbajoCategorias = crearPanel(0, 630, 1000, 45);
-        panelAbajoCategorias.setBackground(Color.decode("#9A7B4F"));
+        panelAbajoCategorias.setBackground(Color.decode(colorCafeClaro));
 
         // Fecha
         fecha.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -258,62 +260,61 @@ public class CafeteriaApp {
         JPanel panelMesas = crearPanel(0, 50, 800, 750);
 
         // Mesa 1
-        JButton botonMesa1 = crearBoton("Mesa 1", 380, 200, 30, "#ffffff", "#9A7B4F", 10, 10);
+        JButton botonMesa1 = crearBoton("Mesa 1", 380, 200, 30, colorBlanco, colorCafeClaro, 10, 10);
         botonMesa1.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa1);
-
         botonMesa1.addActionListener(e -> {
             abrirMesa(1, ventana);
         });
 
         // Mesa 2
-        JButton botonMesa2 = crearBoton("Mesa 2", 380, 200, 30, "#ffffff", "#9A7B4F", 410, 10);
+        JButton botonMesa2 = crearBoton("Mesa 2", 380, 200, 30, colorBlanco, colorCafeClaro, 410, 10);
         botonMesa2.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa2);
         botonMesa2.addActionListener(e -> {
             abrirMesa(2, ventana);
         });
 
         // Mesa 3
-        JButton botonMesa3 = crearBoton("Mesa 3", 380, 200, 30, "#ffffff", "#9A7B4F", 10, 220);
+        JButton botonMesa3 = crearBoton("Mesa 3", 380, 200, 30, colorBlanco, colorCafeClaro, 10, 220);
         botonMesa3.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa3);
         botonMesa3.addActionListener(e -> {
             abrirMesa(3, ventana);
         });
 
         // Mesa 4
-        JButton botonMesa4 = crearBoton("Mesa 4", 380, 200, 30, "#ffffff", "#9A7B4F", 410, 220);
+        JButton botonMesa4 = crearBoton("Mesa 4", 380, 200, 30, colorBlanco, colorCafeClaro, 410, 220);
         botonMesa4.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa4);
         botonMesa4.addActionListener(e -> {
             abrirMesa(4, ventana);
         });
 
         // Mesa 5
-        JButton botonMesa5 = crearBoton("Mesa 5", 380, 200, 30, "#ffffff", "#9A7B4F", 10, 430);
+        JButton botonMesa5 = crearBoton("Mesa 5", 380, 200, 30, colorBlanco, colorCafeClaro, 10, 430);
         botonMesa5.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa5);
         botonMesa5.addActionListener(e -> {
             abrirMesa(5, ventana);
         });
 
         // Mesa 6
-        JButton botonMesa6 = crearBoton("Mesa 6", 380, 200, 30, "#ffffff", "#9A7B4F", 410, 430);
+        JButton botonMesa6 = crearBoton("Mesa 6", 380, 200, 30, colorBlanco, colorCafeClaro, 410, 430);
         botonMesa6.setBorder(BorderFactory.createLineBorder(
-                Color.decode("#9A7B4F"), 2));
+                Color.decode(colorCafeClaro), 2));
         panelMesas.add(botonMesa6);
         botonMesa6.addActionListener(e -> {
             abrirMesa(6, ventana);
         });
 
         // Para llevar
-        JButton botonLlevar = crearBoton("Para Llevar", 300, 60, 30, "#9A7B4F", "#ffffff", 250, 650);
+        JButton botonLlevar = crearBoton("Para Llevar", 300, 60, 30, colorCafeClaro, colorBlanco, 250, 650);
         panelMesas.add(botonLlevar);
 
         pantallaMesas.add(panelMesas);
@@ -424,7 +425,7 @@ public class CafeteriaApp {
             int heightAnterior) {
 
         JPanel panelNavegacion = crearPanel(0, 0, width, 50);
-        panelNavegacion.setBackground(Color.decode("#9A7B4F"));
+        panelNavegacion.setBackground(Color.decode(colorCafeClaro));
 
         // Crear una etiqueta independiente para esta barra
         nombreUsuario.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -432,7 +433,7 @@ public class CafeteriaApp {
         nombreUsuario.setBounds(15, 0, 250, 50);
         panelNavegacion.add(nombreUsuario);
 
-        JButton botonRegresar = crearBoton("Regresar", 200, 40, 18, "#ffffff", "#9A7B4F", width - 220, 5);
+        JButton botonRegresar = crearBoton("Regresar", 200, 40, 18, colorBlanco, colorCafeClaro, width - 220, 5);
         panelNavegacion.add(botonRegresar);
 
         botonRegresar.addActionListener(e -> {
@@ -469,12 +470,12 @@ public class CafeteriaApp {
 
         // Panel Navegacion
         JPanel panelNavegacion = crearPanel(0, 0, 600, 50);
-        panelNavegacion.setBackground(Color.decode("#9A7B4F"));
+        panelNavegacion.setBackground(Color.decode(colorCafeClaro));
 
-        JLabel titulo = crearLabel("Mesa " + numeroMesa, 20, 250, 5, 100, 40, "", "#ffffff");
+        JLabel titulo = crearLabel("Mesa " + numeroMesa, 20, 250, 5, 100, 40, "", colorBlanco);
         panelNavegacion.add(titulo);
 
-        JButton botonCerrar = crearBoton("Cerrar", 100, 40, 18, "#ffffff", "#9A7B4F", 480, 5);
+        JButton botonCerrar = crearBoton("Cerrar", 100, 40, 18, colorBlanco, colorCafeClaro, 480, 5);
         panelNavegacion.add(botonCerrar);
 
         botonCerrar.addActionListener(e -> dialogoMesa.dispose());
@@ -486,25 +487,25 @@ public class CafeteriaApp {
         labelCategorias.setHorizontalAlignment(SwingConstants.LEFT);
         panelCategorias.add(labelCategorias);
 
-        JButton botonCafes = crearBoton("Cafes", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 90);
+        JButton botonCafes = crearBoton("Cafes", 120, 40, 20, colorCafeClaro, colorBlanco, 20, 90);
         panelCategorias.add(botonCafes);
         botonCafes.addActionListener(e -> {
             cardLayout.show(panelProductos, "cafes");
         });
 
-        JButton botonPostres = crearBoton("Postres", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 90);
+        JButton botonPostres = crearBoton("Postres", 120, 40, 20, colorCafeClaro, colorBlanco, 160, 90);
         panelCategorias.add(botonPostres);
         botonPostres.addActionListener(e -> {
             cardLayout.show(panelProductos, "postres");
         });
 
-        JButton botonSnacks = crearBoton("Snacks", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 140);
+        JButton botonSnacks = crearBoton("Snacks", 120, 40, 20, colorCafeClaro, colorBlanco, 20, 140);
         panelCategorias.add(botonSnacks);
         botonSnacks.addActionListener(e -> {
             cardLayout.show(panelProductos, "snacks");
         });
 
-        JButton botonBebidas = crearBoton("Bebidas", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 140);
+        JButton botonBebidas = crearBoton("Bebidas", 120, 40, 20, colorCafeClaro, colorBlanco, 160, 140);
         panelCategorias.add(botonBebidas);
         botonBebidas.addActionListener(e -> {
             cardLayout.show(panelProductos, "bebidas");
@@ -531,25 +532,61 @@ public class CafeteriaApp {
         JLabel labelTextoTotal = crearLabel("TOTAL", 30, 20, 0, 130, 40, "", "");
         labelTextoTotal.setHorizontalAlignment(SwingConstants.LEFT);
         JLabel labelTotal = crearLabel(
-                "$0.00", 30, 150, 0, 130, 40, "", "#9A7B4F");
+                "$0.00", 30, 150, 0, 130, 40, "", colorCafeClaro);
         labelTotal.setHorizontalAlignment(SwingConstants.RIGHT);
         panelTotal.add(labelTextoTotal);
         panelTotal.add(labelTotal);
 
         actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
 
-        JButton botonVaciarCuenta = crearBoton("Vaciar", 120, 40, 20, "#9A7B4F", "#ffffff", 20, 60);
+        JButton botonVaciarCuenta = crearBoton("Vaciar", 120, 40, 20, colorCafeClaro, colorBlanco, 20, 60);
         panelTotal.add(botonVaciarCuenta);
         botonVaciarCuenta.addActionListener(e -> {
-            for (int i = 0; i < productos.length; i++) {
-            cantidadesMesas[numeroMesa][i] = 0;
-            }
-            actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
+            vaciarCuenta(numeroMesa, areaCuenta, labelTotal);
         });
 
-        JButton botonGuardar = crearBoton("Cobrar", 120, 40, 20, "#9A7B4F", "#ffffff", 160, 60);
-        panelTotal.add(botonGuardar);
-        botonGuardar.addActionListener(e -> {
+        JButton botonCobrar = crearBoton("Cobrar", 120, 40, 20, colorCafeClaro, colorBlanco, 160, 60);
+        panelTotal.add(botonCobrar);
+        botonCobrar.addActionListener(e -> {
+            JDialog dialogoCobrar = crearDialogo(ventana, "Cobrar", true, 300, 350);
+            JLabel tituloCobrar = crearLabel("Cobrar", 20, 100, 0, 100, 40, "", "");
+
+            JPanel panelCobrar = crearPanel(0, 50, 300, 250);
+
+            JLabel textoTotal = crearLabel("Total:", 20, 0, 0, 150, 40, "", "");
+            JLabel labelTotalCobrar = crearLabel("$" + calcularTotalMesa(numeroMesa), 20, 150, 0, 130, 40, "",
+                    colorCafeClaro);
+            panelCobrar.add(textoTotal);
+            panelCobrar.add(labelTotalCobrar);
+
+            JLabel textoPago = crearLabel("Pago:", 20, 0, 50, 150, 40, "", "");
+            JTextField fieldPago = crearTextField("", 10, 20, 150, 50, 130, 40);
+            panelCobrar.add(textoPago);
+            panelCobrar.add(fieldPago);
+
+            JLabel textoCambio = crearLabel("Cambio:", 20, 0, 150, 150, 40, "", "");
+            JLabel labelCambio = crearLabel("$0.00", 20, 150, 150, 130, 40, "", colorCafeClaro);
+            panelCobrar.add(textoCambio);
+            panelCobrar.add(labelCambio);
+            
+            JButton botonCalcularCambio = crearBoton("Calcular Cambio", 260, 40, 20, colorCafeClaro, colorBlanco, 20, 100);
+            panelCobrar.add(botonCalcularCambio);
+            botonCalcularCambio.addActionListener(r -> {
+                double cambio = -((calcularTotalMesa(numeroMesa) - Double.parseDouble(fieldPago.getText())));
+                labelCambio.setText("$" + cambio);
+            });
+
+            JButton botonGuardar = crearBoton("Guardar", 260, 40, 20, colorCafeClaro, colorBlanco, 20, 200);
+            panelCobrar.add(botonGuardar);
+            botonGuardar.addActionListener(r -> {
+                vaciarCuenta(numeroMesa, areaCuenta, labelTotal);
+                dialogoCobrar.dispose();
+            });
+
+            dialogoCobrar.add(panelCobrar);
+            dialogoCobrar.add(tituloCobrar);
+
+            dialogoCobrar.setVisible(true);
         });
 
         // Panel de productos
@@ -612,11 +649,9 @@ public class CafeteriaApp {
             int x = (i % 2 == 0) ? 20 : 160;
             int y = (i % 2 == 0) ? 60 + 50 * i / 2 : 60 + 50 * (i - 1) / 2;
 
-            int indice = i+desfase;
+            int indice = i + desfase;
 
-            JButton boton = crearBoton(
-                    productos[i+desfase], 120, 40, 12,
-                    "#9A7B4F", "#ffffff", x, y);
+            JButton boton = crearBoton(productos[i + desfase], 120, 40, 12, colorCafeClaro, colorBlanco, x, y);
 
             boton.addActionListener(e -> {
 
@@ -661,15 +696,21 @@ public class CafeteriaApp {
 
     public static double calcularTotalMesa(int numeroMesa) {
 
-    double total = 0;
+        double total = 0;
 
-    for (int i = 0; i < productos.length; i++) {
-        total += cantidadesMesas[numeroMesa][i]
-               * precios[i];
+        for (int i = 0; i < productos.length; i++) {
+            total += cantidadesMesas[numeroMesa][i]
+                    * precios[i];
+        }
+
+        return total;
     }
 
-    return total;
+    public static void vaciarCuenta (int numeroMesa, JTextArea areaCuenta, JLabel labelTotal) {
+        for (int i = 0; i < productos.length; i++) {
+                cantidadesMesas[numeroMesa][i] = 0;
+            }
+            actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
     }
-
 
 }
