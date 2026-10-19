@@ -46,13 +46,15 @@ public class CafeteriaApp {
 
     static double[] totalCobradoDia = new double[7];
 
+    static String fechaOperacion = "01/01/2026";
+
     public static void main(String[] args) {
 
         String[] usuarioCajero = { "Error" };
         JLabel nombreUsuario = new JLabel();
         JLabel nombreUsuarioMesas = new JLabel();
         JLabel nombreUsuarioCorte = new JLabel();
-        JLabel fecha = new JLabel("01/01/2026");
+        JLabel labelFecha = new JLabel(fechaOperacion);
 
         // Ventana Principal
         JFrame ventana = new JFrame("Cafetería El Cafe");
@@ -193,13 +195,25 @@ public class CafeteriaApp {
 
             JLabel fechaDia = crearLabel("Dia de operacion: ", 20, 75, 10, 200, 30, "", "");
 
-            JTextField campoFechaDia = crearTextField(fecha.getText(), 10, 20, 100, 50, 150, 30);
+            JTextField campoFechaDia = crearTextField(fechaOperacion, 10, 20, 100, 50, 150, 30);
 
             JButton aceptarDia = crearBoton("Aceptar", 150, 60, 20, colorCafeClaro, colorBlanco, 100, 100);
 
             aceptarDia.addActionListener(ev -> {
-                fecha.setText(campoFechaDia.getText());
-                dialogoDia.dispose();
+                try {
+                    java.time.LocalDate.parse(
+                            campoFechaDia.getText(),
+                            java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu"));
+
+                    fechaOperacion = campoFechaDia.getText();
+                    labelFecha.setText(fechaOperacion);
+                    dialogoDia.dispose();
+
+                } catch (java.time.format.DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(
+                            dialogoDia,
+                            "Fecha inválida. Usa el formato dd/MM/aaaa");
+                }
             });
 
             dialogoDia.add(fechaDia);
@@ -233,10 +247,10 @@ public class CafeteriaApp {
         panelAbajoCategorias.setBackground(Color.decode(colorCafeClaro));
 
         // Fecha
-        fecha.setFont(new Font("Arial", Font.PLAIN, 20));
-        fecha.setForeground(Color.WHITE);
-        fecha.setBounds(870, 0, 130, 40);
-        panelAbajoCategorias.add(fecha);
+        labelFecha.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelFecha.setForeground(Color.WHITE);
+        labelFecha.setBounds(870, 0, 130, 40);
+        panelAbajoCategorias.add(labelFecha);
 
         // Añadir componentes
         pantallaCategorias.add(panelCategorias);
@@ -568,8 +582,9 @@ public class CafeteriaApp {
             JLabel labelCambio = crearLabel("$0.00", 20, 150, 150, 130, 40, "", colorCafeClaro);
             panelCobrar.add(textoCambio);
             panelCobrar.add(labelCambio);
-            
-            JButton botonCalcularCambio = crearBoton("Calcular Cambio", 260, 40, 20, colorCafeClaro, colorBlanco, 20, 100);
+
+            JButton botonCalcularCambio = crearBoton("Calcular Cambio", 260, 40, 20, colorCafeClaro, colorBlanco, 20,
+                    100);
             panelCobrar.add(botonCalcularCambio);
             botonCalcularCambio.addActionListener(r -> {
                 double cambio = -((calcularTotalMesa(numeroMesa) - Double.parseDouble(fieldPago.getText())));
@@ -707,11 +722,33 @@ public class CafeteriaApp {
         return total;
     }
 
-    public static void vaciarCuenta (int numeroMesa, JTextArea areaCuenta, JLabel labelTotal) {
+    public static void vaciarCuenta(int numeroMesa, JTextArea areaCuenta, JLabel labelTotal) {
         for (int i = 0; i < productos.length; i++) {
-                cantidadesMesas[numeroMesa][i] = 0;
-            }
-            actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
+            cantidadesMesas[numeroMesa][i] = 0;
+        }
+        actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
+    }
+
+    public static String obtenerPromocion() {
+        java.time.LocalDate fecha;
+
+        fecha = java.time.LocalDate.parse(
+                fechaOperacion,
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu"));
+
+        if (fecha.getMonthValue() == 2 && fecha.getDayOfMonth() == 14) {
+            return "2x1 en cafés";
+        }
+
+        if (fecha.getMonthValue() == 5 && fecha.getDayOfMonth() == 10) {
+            return "Café gratis para mamás";
+        }
+
+        if (fecha.getMonthValue() == 11 && fecha.getDayOfMonth() == 2) {
+            return "Pastel Choco gratis con la compra de un café";
+        }
+
+        return "Sin promociones por fecha";
     }
 
 }
