@@ -581,6 +581,7 @@ public class CafeteriaApp {
             botonGuardar.addActionListener(r -> {
                 vaciarCuenta(numeroMesa, areaCuenta, labelTotal);
                 dialogoCobrar.dispose();
+                totalCobradoDia[numeroMesa] += calcularTotalMesa(numeroMesa);
             });
 
             dialogoCobrar.add(panelCobrar);
