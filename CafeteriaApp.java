@@ -43,11 +43,12 @@ public class CafeteriaApp {
     };
 
     static int[][] cantidadesMesas = new int[7][40];
-    static boolean[] mesaActiva = new boolean[7];
 
     static double[] totalCobradoDia = new double[7];
 
     static String fechaOperacion = "02/11/2026";
+
+    static double dineroInicial;
 
     public static void main(String[] args) {
 
@@ -236,13 +237,21 @@ public class CafeteriaApp {
         });
 
         // Boton Caja
+        JLabel labelFondoInicial = crearLabel("$0.00", 20, 20, 60, 200, 40, "", colorCafeClaro);
+        JLabel labelEntradasNetas = crearLabel("$0.00", 20, 420, 60, 200, 40, "", colorCafeClaro);
+        JLabel labelVentas = crearLabel("$0.00", 20, 20, 150, 200, 40, "", colorCafeClaro);
+        JLabel labelEfectivo = crearLabel("$0.00", 20, 420, 150, 200, 40, "", colorCafeClaro);
+
         JButton botonCaja = crearBoton("Caja", 280, 530, 50, colorCafeClaro, colorBlanco, 670, 25);
         panelCategorias.add(botonCaja);
         botonCaja.addActionListener(e -> {
-            ventana.setSize(800, 600);
+            ventana.setSize(800, 400);
             ventana.setLocationRelativeTo(null);
             cardLayout.show(pantallas, "caja");
             nombreUsuarioCorte.setText(nombreUsuario.getText());
+            labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
+            labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+            labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
         });
 
         // Panel de abajo de categorías
@@ -342,31 +351,89 @@ public class CafeteriaApp {
         JPanel pantallaCaja = new JPanel();
         pantallaCaja.setLayout(null);
 
+        // Navegacion
         JPanel panelNavegacionCaja = crearBarraNavegacion("categorias", nombreUsuarioCorte, ventana, cardLayout,
                 pantallas, 800, 1000, 700);
         JLabel tituloCaja = crearLabel("Caja", 20, 350, 5, 100, 40, "", colorBlanco);
         panelNavegacionCaja.add(tituloCaja);
 
-        JPanel panelDatosCaja = crearPanel(0, 50, 800, 400);
+        // Datos
+        JPanel panelDatosCaja = crearPanel(0, 50, 800, 200);
 
         JLabel labelTextoFondoInicial = crearLabel("Fondo inicial", 20, 20, 20, 200, 40, "", "");
         labelTextoFondoInicial.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelTextoFondoInicial);
 
-        JLabel labelFondoInicial = crearLabel("$0.00", 20, 20, 60, 200, 40, "", colorCafeClaro);
         labelFondoInicial.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelFondoInicial);
 
-        JLabel labelTextoVentas = crearLabel("Ventas del dia", 20, 420, 20, 200, 40, "", "");
+        JLabel labelTextoEntradasNetas = crearLabel("Entradas y salidas netas", 20, 420, 20, 300, 40, "", "");
+        labelTextoEntradasNetas.setHorizontalAlignment(SwingConstants.LEFT);
+        panelDatosCaja.add(labelTextoEntradasNetas);
+
+        labelEntradasNetas.setHorizontalAlignment(SwingConstants.LEFT);
+        panelDatosCaja.add(labelEntradasNetas);
+
+        JLabel labelTextoVentas = crearLabel("Ventas del dia", 20, 20, 110, 200, 40, "", "");
         labelTextoVentas.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelTextoVentas);
 
-        JLabel labelVentas = crearLabel("$" + calcularTotalVentas(), 20, 420, 60, 200, 40, "", colorCafeClaro);
         labelVentas.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelVentas);
 
-        pantallaCaja.add(panelDatosCaja);
+        JLabel labelTextoEfectivo = crearLabel("Efectivo esperado", 20, 420, 110, 200, 40, "", "");
+        labelTextoEfectivo.setHorizontalAlignment(SwingConstants.LEFT);
+        panelDatosCaja.add(labelTextoEfectivo);
+
+        labelEfectivo.setHorizontalAlignment(SwingConstants.LEFT);
+        panelDatosCaja.add(labelEfectivo);
+
+        // Operaciones
+        JPanel panelOperacionesCaja = crearPanel(0, 250, 800, 150);
+
+        JLabel labelOperacionesCaja = crearLabel("Operaciones", 20, 20, 0, 200, 40, "", "");
+        labelOperacionesCaja.setHorizontalAlignment(SwingConstants.LEFT);
+        panelOperacionesCaja.add(labelOperacionesCaja);
+
+        JButton botonAbrirCaja = crearBoton("Abrir Caja", 240, 60, 20, colorCafeClaro, colorBlanco, 20, 50);
+        panelOperacionesCaja.add(botonAbrirCaja);
+        botonAbrirCaja.addActionListener(e -> {
+            JDialog dialogoAbrirCaja = crearDialogo(ventana, "Abrir Caja", true, 250, 200);
+
+            JPanel panelAbrirCaja = crearPanel(0, 0, 250, 200);
+
+            JLabel labelDineroInicial = crearLabel("Fondo Inicial", 20, 0, 0, 250, 40, "", "");
+            panelAbrirCaja.add(labelDineroInicial);
+
+            JTextField textFieldDineroInicial = crearTextField("", 10, 20, 50, 50, 150, 40);
+            panelAbrirCaja.add(textFieldDineroInicial);
+
+            JButton botonGuardarAbrirCaja = crearBoton("Guardar", 150, 40, 20, colorCafeClaro, colorBlanco, 50, 110);
+            panelAbrirCaja.add(botonGuardarAbrirCaja);
+            botonGuardarAbrirCaja.addActionListener(r -> {
+                dineroInicial = Double.parseDouble(textFieldDineroInicial.getText());
+
+                labelFondoInicial.setText("$" + String.format("%.2f", dineroInicial));
+                labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
+                labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+                labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+
+                dialogoAbrirCaja.dispose();
+            });
+
+            dialogoAbrirCaja.add(panelAbrirCaja);
+            dialogoAbrirCaja.setVisible(true);
+        });
+
+        JButton botonMovimientosCaja = crearBoton("Movimientos", 240, 60, 20, colorCafeClaro, colorBlanco, 280, 50);
+        panelOperacionesCaja.add(botonMovimientosCaja);
+
+        JButton botonCorteCaja = crearBoton("Corte", 240, 60, 20, colorCafeClaro, colorBlanco, 540, 50);
+        panelOperacionesCaja.add(botonCorteCaja);
+
         pantallaCaja.add(panelNavegacionCaja);
+        pantallaCaja.add(panelDatosCaja);
+        pantallaCaja.add(panelOperacionesCaja);
 
         /*
          * ====================
@@ -626,11 +693,13 @@ public class CafeteriaApp {
             JButton botonGuardar = crearBoton("Guardar", 260, 40, 20, colorCafeClaro, colorBlanco, 20, 200);
             panelCobrar.add(botonGuardar);
             botonGuardar.addActionListener(r -> {
+                double totalVenta = calcularTotalMesa(numeroMesa);
+
+                totalCobradoDia[numeroMesa] += totalVenta;
+
                 vaciarCuenta(numeroMesa, areaCuenta, labelTotal);
                 dialogoCobrar.dispose();
-                totalCobradoDia[numeroMesa] += calcularTotalMesa(numeroMesa);
             });
-
             dialogoCobrar.add(panelCobrar);
             dialogoCobrar.add(tituloCobrar);
 
@@ -715,7 +784,7 @@ public class CafeteriaApp {
         }
     }
 
-    //Actualizar Cuenta
+    // Actualizar Cuenta
     public static void actualizarCuenta(
             int numeroMesa,
             JTextArea areaCuenta,
@@ -743,7 +812,7 @@ public class CafeteriaApp {
         labelTotal.setText("$" + String.format("%.2f", total));
     }
 
-    //Calcular total Mesa
+    // Calcular total Mesa
     public static double calcularTotalMesa(int numeroMesa) {
 
         double total = 0;
@@ -767,7 +836,7 @@ public class CafeteriaApp {
         return total;
     }
 
-    //Vaciar cuenta
+    // Vaciar cuenta
     public static void vaciarCuenta(int numeroMesa, JTextArea areaCuenta, JLabel labelTotal) {
         for (int i = 0; i < productos.length; i++) {
             cantidadesMesas[numeroMesa][i] = 0;
@@ -775,7 +844,7 @@ public class CafeteriaApp {
         actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
     }
 
-    //Obtener Promocion
+    // Obtener Promocion
     public static String obtenerPromocion() {
 
         if (esDiaPromocion(14, 2)) {
@@ -793,7 +862,7 @@ public class CafeteriaApp {
         return "Sin promociones por fecha";
     }
 
-    //Es dia Promocion?
+    // Es dia Promocion?
     public static boolean esDiaPromocion(int dia, int mes) {
         try {
             java.time.LocalDate fechaActual = java.time.LocalDate.parse(
@@ -808,7 +877,7 @@ public class CafeteriaApp {
         }
     }
 
-    //Promo pastel Choco
+    // Promo pastel Choco
     public static double promoChoco(int numeroMesa, double total) {
         if (esDiaPromocion(2, 11)
                 && cantidadesMesas[numeroMesa][12] > 0) {
@@ -829,7 +898,7 @@ public class CafeteriaApp {
         return total;
     }
 
-    //Calcular total de Caja
+    // Calcular total de Caja
     public static double calcularTotalVentas() {
 
         double total = 0;
@@ -839,6 +908,14 @@ public class CafeteriaApp {
         }
 
         return total;
+    }
+
+    // Vaciar total ventas
+    public static void vaciarTotalVentas() {
+        for (int i = 0; i < totalCobradoDia.length; i++) {
+            totalCobradoDia[i] = 0;
+        }
+
     }
 
 }
