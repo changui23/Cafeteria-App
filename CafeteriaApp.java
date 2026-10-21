@@ -43,7 +43,7 @@ public class CafeteriaApp {
     };
 
     static int[][] cantidadesMesas = new int[7][40];
-    static boolean[] mesaActiva = new boolean [7];
+    static boolean[] mesaActiva = new boolean[7];
 
     static double[] totalCobradoDia = new double[7];
 
@@ -229,7 +229,7 @@ public class CafeteriaApp {
         panelCategorias.add(botonMesas);
 
         botonMesas.addActionListener(e -> {
-            ventana.setSize(808, 800);
+            ventana.setSize(808, 720);
             ventana.setLocationRelativeTo(null);
             cardLayout.show(pantallas, "mesas");
             nombreUsuarioMesas.setText(nombreUsuario.getText());
@@ -330,10 +330,6 @@ public class CafeteriaApp {
             abrirMesa(6, ventana);
         });
 
-        // Para llevar
-        JButton botonLlevar = crearBoton("Para Llevar", 300, 60, 30, colorCafeClaro, colorBlanco, 250, 650);
-        panelMesas.add(botonLlevar);
-
         pantallaMesas.add(panelMesas);
         pantallaMesas.add(panelNavegacionMesas);
 
@@ -350,7 +346,7 @@ public class CafeteriaApp {
                 pantallas, 800, 1000, 700);
         JLabel tituloCaja = crearLabel("Caja", 20, 350, 5, 100, 40, "", colorBlanco);
         panelNavegacionCaja.add(tituloCaja);
-        
+
         JPanel panelDatosCaja = crearPanel(0, 50, 800, 400);
 
         JLabel labelTextoFondoInicial = crearLabel("Fondo inicial", 20, 20, 20, 200, 40, "", "");
@@ -365,7 +361,7 @@ public class CafeteriaApp {
         labelTextoVentas.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelTextoVentas);
 
-        JLabel labelVentas = crearLabel("$0.00", 20, 420, 60, 200, 40, "", colorCafeClaro);
+        JLabel labelVentas = crearLabel("$" + calcularTotalVentas(), 20, 420, 60, 200, 40, "", colorCafeClaro);
         labelVentas.setHorizontalAlignment(SwingConstants.LEFT);
         panelDatosCaja.add(labelVentas);
 
@@ -695,6 +691,7 @@ public class CafeteriaApp {
         dialogoMesa.setVisible(true);
     }
 
+    // Crear Botones Productos
     public static void crearBotonesProductos(int desfase, int numeroMesa, JTextArea areaCuenta, JLabel labelTotal,
             JPanel panelProductos) {
         for (int i = 0; i < 10; i++) {
@@ -718,6 +715,7 @@ public class CafeteriaApp {
         }
     }
 
+    //Actualizar Cuenta
     public static void actualizarCuenta(
             int numeroMesa,
             JTextArea areaCuenta,
@@ -745,6 +743,7 @@ public class CafeteriaApp {
         labelTotal.setText("$" + String.format("%.2f", total));
     }
 
+    //Calcular total Mesa
     public static double calcularTotalMesa(int numeroMesa) {
 
         double total = 0;
@@ -768,6 +767,7 @@ public class CafeteriaApp {
         return total;
     }
 
+    //Vaciar cuenta
     public static void vaciarCuenta(int numeroMesa, JTextArea areaCuenta, JLabel labelTotal) {
         for (int i = 0; i < productos.length; i++) {
             cantidadesMesas[numeroMesa][i] = 0;
@@ -775,6 +775,7 @@ public class CafeteriaApp {
         actualizarCuenta(numeroMesa, areaCuenta, labelTotal);
     }
 
+    //Obtener Promocion
     public static String obtenerPromocion() {
 
         if (esDiaPromocion(14, 2)) {
@@ -792,21 +793,22 @@ public class CafeteriaApp {
         return "Sin promociones por fecha";
     }
 
+    //Es dia Promocion?
     public static boolean esDiaPromocion(int dia, int mes) {
         try {
             java.time.LocalDate fechaActual = java.time.LocalDate.parse(
-                fechaOperacion,
-                java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu")
-            );
+                    fechaOperacion,
+                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu"));
 
             return fechaActual.getDayOfMonth() == dia
-                && fechaActual.getMonthValue() == mes;
+                    && fechaActual.getMonthValue() == mes;
 
         } catch (java.time.format.DateTimeParseException ex) {
             return false;
         }
     }
 
+    //Promo pastel Choco
     public static double promoChoco(int numeroMesa, double total) {
         if (esDiaPromocion(2, 11)
                 && cantidadesMesas[numeroMesa][12] > 0) {
@@ -826,14 +828,17 @@ public class CafeteriaApp {
         }
         return total;
     }
-}
-    public static double calcularTotalCaja() {
-        
+
+    //Calcular total de Caja
+    public static double calcularTotalVentas() {
+
         double total = 0;
 
-        for (int i = 0; i < 7; i++) {
-            total += calcularTotalMesa(i);
+        for (int i = 0; i < totalCobradoDia.length; i++) {
+            total += totalCobradoDia[i];
         }
 
         return total;
     }
+
+}
