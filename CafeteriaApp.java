@@ -5,6 +5,7 @@ public class CafeteriaApp {
 
     public static String colorCafeClaro = "#9A7B4F";
     public static String colorBlanco = "#ffffff";
+    public static String colorGrisClaro = "#a4a4a4";
 
     static String[] productos = {
             // Cafes
@@ -395,6 +396,7 @@ public class CafeteriaApp {
         labelOperacionesCaja.setHorizontalAlignment(SwingConstants.LEFT);
         panelOperacionesCaja.add(labelOperacionesCaja);
 
+        // Boton Abrir Caja
         JButton botonAbrirCaja = crearBoton("Abrir Caja", 240, 60, 20, colorCafeClaro, colorBlanco, 20, 50);
         panelOperacionesCaja.add(botonAbrirCaja);
         botonAbrirCaja.addActionListener(e -> {
@@ -425,11 +427,53 @@ public class CafeteriaApp {
             dialogoAbrirCaja.setVisible(true);
         });
 
+        // Boton Movimientos
         JButton botonMovimientosCaja = crearBoton("Movimientos", 240, 60, 20, colorCafeClaro, colorBlanco, 280, 50);
         panelOperacionesCaja.add(botonMovimientosCaja);
 
+        // Boton Corte Caja
         JButton botonCorteCaja = crearBoton("Corte", 240, 60, 20, colorCafeClaro, colorBlanco, 540, 50);
         panelOperacionesCaja.add(botonCorteCaja);
+        botonCorteCaja.addActionListener(e -> {
+            JDialog dialogoCorteCaja = crearDialogo(ventana, "Corte Caja", true, 500, 750);
+            JPanel panelCorteCaja = crearPanel(0, 0, 500, 750);
+
+            // Panel Navegacion
+            JPanel panelNavegacionCorteCaja = crearPanel(0, 0, 500, 50);
+            panelNavegacionCorteCaja.setBackground(Color.decode(colorCafeClaro));
+            panelCorteCaja.add(panelNavegacionCorteCaja);
+
+            JLabel nombreUsuarioCorteDialogo = crearLabel(nombreUsuarioCorte.getText(), 20, 0, 0, 250, 50, "", colorBlanco);
+            nombreUsuarioCorteDialogo.setFont(new Font("Arial", Font.PLAIN, 20));
+            panelNavegacionCorteCaja.add(nombreUsuarioCorteDialogo);
+
+            JLabel labelCorteDeCaja = crearLabel("Corte de Caja", 20, 250, 0, 250, 50, "", colorBlanco);
+            panelNavegacionCorteCaja.add(labelCorteDeCaja);
+
+            // Resumen de turno
+            JPanel panelResumenTurno = crearPanel(0, 50, 500, 300);
+            panelCorteCaja.add(panelResumenTurno);
+
+            JLabel labelResumenTurno = crearLabel("Resumen del turno", 20, 20, 20, 200, 50, "", "");
+            labelResumenTurno.setHorizontalAlignment(SwingConstants.LEFT);
+            panelResumenTurno.add(labelResumenTurno);
+
+            JPanel panelResumenTurnoNumeros = crearPanel(18, 80, 460, 200);
+            panelResumenTurnoNumeros.setBackground(Color.decode(colorGrisClaro));
+            panelResumenTurno.add(panelResumenTurnoNumeros);
+
+            JLabel labelTextoFondoInicialCorte = crearLabel("Fondo Inicial", 20, 10, 0, 190, 50, "", colorBlanco);
+            labelTextoFondoInicialCorte.setHorizontalAlignment(SwingConstants.LEFT);
+            labelTextoFondoInicialCorte.setFont(new Font("Arial", Font.PLAIN, 20));
+            panelResumenTurnoNumeros.add(labelTextoFondoInicialCorte);
+
+            JLabel labelFondoInicialCorte = crearLabel("$" + String.format("%.2f", dineroInicial), 20, 250, 0, 200, 50, "", "");
+            labelFondoInicialCorte.setHorizontalAlignment(SwingConstants.RIGHT);
+            panelResumenTurnoNumeros.add(labelFondoInicialCorte);
+
+            dialogoCorteCaja.add(panelCorteCaja);
+            dialogoCorteCaja.setVisible(true);
+        });
 
         pantallaCaja.add(panelNavegacionCaja);
         pantallaCaja.add(panelDatosCaja);
