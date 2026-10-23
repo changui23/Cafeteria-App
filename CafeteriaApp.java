@@ -51,6 +51,8 @@ public class CafeteriaApp {
 
     static double dineroInicial;
 
+    static double efectivoRetirado = 0;
+
     public static void main(String[] args) {
 
         String[] usuarioCajero = { "Error" };
@@ -250,9 +252,7 @@ public class CafeteriaApp {
             ventana.setLocationRelativeTo(null);
             cardLayout.show(pantallas, "caja");
             nombreUsuarioCorte.setText(nombreUsuario.getText());
-            labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
-            labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
-            labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+            actualizarCaja(labelEntradasNetas, labelVentas, labelEfectivo, labelFondoInicial);
         });
 
         // Panel de abajo de categorías
@@ -415,10 +415,7 @@ public class CafeteriaApp {
             botonGuardarAbrirCaja.addActionListener(r -> {
                 dineroInicial = Double.parseDouble(textFieldDineroInicial.getText());
 
-                labelFondoInicial.setText("$" + String.format("%.2f", dineroInicial));
-                labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
-                labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
-                labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+                actualizarCaja(labelEntradasNetas, labelVentas, labelEfectivo, labelFondoInicial);
 
                 dialogoAbrirCaja.dispose();
             });
@@ -430,13 +427,37 @@ public class CafeteriaApp {
         // Boton Movimientos
         JButton botonMovimientosCaja = crearBoton("Movimientos", 240, 60, 20, colorCafeClaro, colorBlanco, 280, 50);
         panelOperacionesCaja.add(botonMovimientosCaja);
+        botonMovimientosCaja.addActionListener(e -> {
+            JDialog dialogoMovimientosCaja = crearDialogo(ventana, "Movimientos de caja", true, 250, 200);
+
+            JPanel panelMovimientosCaja = crearPanel(0, 0, 250, 200);
+
+            JLabel labelRetirar = crearLabel("-Retirar o +Agregar", 20, 0, 0, 250, 40, "", "");
+            panelMovimientosCaja.add(labelRetirar);
+
+            JTextField textFieldRetirar = crearTextField("", 10, 20, 50, 50, 150, 40);
+            panelMovimientosCaja.add(textFieldRetirar);
+
+            JButton botonGuardarMovimientos = crearBoton("Guardar", 150, 40, 20, colorCafeClaro, colorBlanco, 50, 110);
+            panelMovimientosCaja.add(botonGuardarMovimientos);
+            botonGuardarMovimientos.addActionListener(r -> {
+                efectivoRetirado += Double.parseDouble(textFieldRetirar.getText());
+
+                actualizarCaja(labelEntradasNetas, labelVentas, labelEfectivo, labelFondoInicial);
+
+                dialogoMovimientosCaja.dispose();
+            });
+
+            dialogoMovimientosCaja.add(panelMovimientosCaja);
+            dialogoMovimientosCaja.setVisible(true);
+        });
 
         // Boton Corte Caja
         JButton botonCorteCaja = crearBoton("Corte", 240, 60, 20, colorCafeClaro, colorBlanco, 540, 50);
         panelOperacionesCaja.add(botonCorteCaja);
         botonCorteCaja.addActionListener(e -> {
-            JDialog dialogoCorteCaja = crearDialogo(ventana, "Corte Caja", true, 500, 750);
-            JPanel panelCorteCaja = crearPanel(0, 0, 500, 750);
+            JDialog dialogoCorteCaja = crearDialogo(ventana, "Corte Caja", true, 500, 500);
+            JPanel panelCorteCaja = crearPanel(0, 0, 500, 500);
 
             // Panel Navegacion
             JPanel panelNavegacionCorteCaja = crearPanel(0, 0, 500, 50);
@@ -458,8 +479,8 @@ public class CafeteriaApp {
             labelResumenTurno.setHorizontalAlignment(SwingConstants.LEFT);
             panelResumenTurno.add(labelResumenTurno);
 
-            JPanel panelResumenTurnoNumeros = crearPanel(18, 80, 460, 200);
-            panelResumenTurnoNumeros.setBackground(Color.decode(colorGrisClaro));
+            JPanel panelResumenTurnoNumeros = crearPanel(18, 80, 460, 250);
+            panelResumenTurnoNumeros.setBackground(Color.decode(colorCafeClaro));
             panelResumenTurno.add(panelResumenTurnoNumeros);
 
             JLabel labelTextoFondoInicialCorte = crearLabel("Fondo Inicial", 20, 10, 0, 190, 50, "", colorBlanco);
@@ -470,6 +491,44 @@ public class CafeteriaApp {
             JLabel labelFondoInicialCorte = crearLabel("$" + String.format("%.2f", dineroInicial), 20, 250, 0, 200, 50, "", "");
             labelFondoInicialCorte.setHorizontalAlignment(SwingConstants.RIGHT);
             panelResumenTurnoNumeros.add(labelFondoInicialCorte);
+
+            JLabel labelTextoVentasEfectivo = crearLabel("Ventas en Efectivo", 20, 10, 50, 190, 50, "", colorBlanco);
+            labelTextoVentasEfectivo.setHorizontalAlignment(SwingConstants.LEFT);
+            labelTextoVentasEfectivo.setFont(new Font("Arial", Font.PLAIN, 20));
+            panelResumenTurnoNumeros.add(labelTextoVentasEfectivo);
+
+            JLabel labelVentasEfectivo = crearLabel("$" + String.format("%.2f", calcularTotalVentas()), 20, 250, 50, 200, 50, "", "");
+            labelVentasEfectivo.setHorizontalAlignment(SwingConstants.RIGHT);
+            panelResumenTurnoNumeros.add(labelVentasEfectivo);
+
+            JLabel labelTextoMovimientosCrote = crearLabel("Movimientos", 20, 10, 100, 190, 50, "", colorBlanco);
+            labelTextoMovimientosCrote.setHorizontalAlignment(SwingConstants.LEFT);
+            labelTextoMovimientosCrote.setFont(new Font("Arial", Font.PLAIN, 20));
+            panelResumenTurnoNumeros.add(labelTextoMovimientosCrote);
+
+            JLabel labelMovimientosCorte = crearLabel("$" + String.format("%.2f", efectivoRetirado), 20, 250, 100, 200, 50, "", "");
+            labelMovimientosCorte.setHorizontalAlignment(SwingConstants.RIGHT);
+            panelResumenTurnoNumeros.add(labelMovimientosCorte);
+
+            JPanel panelLineaBlanca = crearPanel(0, 150, 460, 5);
+            panelResumenTurnoNumeros.add(panelLineaBlanca);
+
+            JLabel labelTextoEfectivoEsperado = crearLabel("Efectivo Esperado", 25, 10, 155, 290, 70, "", "");
+            labelTextoEfectivoEsperado.setHorizontalAlignment(SwingConstants.LEFT);
+            panelResumenTurnoNumeros.add(labelTextoEfectivoEsperado);
+
+            JLabel labelEfectivoEsperado = crearLabel("$" + String.format("%.2f", efectivoRetirado + calcularTotalVentas() + dineroInicial), 25, 300, 155, 150, 70, "", colorBlanco);
+            labelEfectivoEsperado.setHorizontalAlignment(SwingConstants.RIGHT);
+            panelResumenTurnoNumeros.add(labelEfectivoEsperado);
+
+            JButton botonCerrarCaja = crearBoton("Cerrar Caja", 300, 60, 20, colorCafeClaro, colorBlanco, 100, 400);
+            panelCorteCaja.add(botonCerrarCaja);
+            botonCerrarCaja.addActionListener(r -> {
+                vaciarTotalVentas();
+                actualizarCaja(labelEntradasNetas, labelVentas, labelEfectivo, labelFondoInicial);
+
+                dialogoCorteCaja.dispose();
+            });
 
             dialogoCorteCaja.add(panelCorteCaja);
             dialogoCorteCaja.setVisible(true);
@@ -960,6 +1019,18 @@ public class CafeteriaApp {
             totalCobradoDia[i] = 0;
         }
 
+        
+    dineroInicial = 0;
+    efectivoRetirado = 0;
+
+    }
+
+    //Actualizar Caja
+    public static void actualizarCaja(JLabel labelEntradasNetas, JLabel labelVentas, JLabel labelEfectivo, JLabel labelFondoInicial) {
+        labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
+        labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
+        labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas() + efectivoRetirado));
+        labelFondoInicial.setText("$" + String.format("%.2f", dineroInicial));
     }
 
 }
