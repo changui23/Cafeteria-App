@@ -464,7 +464,8 @@ public class CafeteriaApp {
             panelNavegacionCorteCaja.setBackground(Color.decode(colorCafeClaro));
             panelCorteCaja.add(panelNavegacionCorteCaja);
 
-            JLabel nombreUsuarioCorteDialogo = crearLabel(nombreUsuarioCorte.getText(), 20, 0, 0, 250, 50, "", colorBlanco);
+            JLabel nombreUsuarioCorteDialogo = crearLabel(nombreUsuarioCorte.getText(), 20, 0, 0, 250, 50, "",
+                    colorBlanco);
             nombreUsuarioCorteDialogo.setFont(new Font("Arial", Font.PLAIN, 20));
             panelNavegacionCorteCaja.add(nombreUsuarioCorteDialogo);
 
@@ -488,7 +489,8 @@ public class CafeteriaApp {
             labelTextoFondoInicialCorte.setFont(new Font("Arial", Font.PLAIN, 20));
             panelResumenTurnoNumeros.add(labelTextoFondoInicialCorte);
 
-            JLabel labelFondoInicialCorte = crearLabel("$" + String.format("%.2f", dineroInicial), 20, 250, 0, 200, 50, "", "");
+            JLabel labelFondoInicialCorte = crearLabel("$" + String.format("%.2f", dineroInicial), 20, 250, 0, 200, 50,
+                    "", "");
             labelFondoInicialCorte.setHorizontalAlignment(SwingConstants.RIGHT);
             panelResumenTurnoNumeros.add(labelFondoInicialCorte);
 
@@ -497,7 +499,8 @@ public class CafeteriaApp {
             labelTextoVentasEfectivo.setFont(new Font("Arial", Font.PLAIN, 20));
             panelResumenTurnoNumeros.add(labelTextoVentasEfectivo);
 
-            JLabel labelVentasEfectivo = crearLabel("$" + String.format("%.2f", calcularTotalVentas()), 20, 250, 50, 200, 50, "", "");
+            JLabel labelVentasEfectivo = crearLabel("$" + String.format("%.2f", calcularTotalVentas()), 20, 250, 50,
+                    200, 50, "", "");
             labelVentasEfectivo.setHorizontalAlignment(SwingConstants.RIGHT);
             panelResumenTurnoNumeros.add(labelVentasEfectivo);
 
@@ -506,7 +509,8 @@ public class CafeteriaApp {
             labelTextoMovimientosCrote.setFont(new Font("Arial", Font.PLAIN, 20));
             panelResumenTurnoNumeros.add(labelTextoMovimientosCrote);
 
-            JLabel labelMovimientosCorte = crearLabel("$" + String.format("%.2f", efectivoRetirado), 20, 250, 100, 200, 50, "", "");
+            JLabel labelMovimientosCorte = crearLabel("$" + String.format("%.2f", efectivoRetirado), 20, 250, 100, 200,
+                    50, "", "");
             labelMovimientosCorte.setHorizontalAlignment(SwingConstants.RIGHT);
             panelResumenTurnoNumeros.add(labelMovimientosCorte);
 
@@ -517,7 +521,9 @@ public class CafeteriaApp {
             labelTextoEfectivoEsperado.setHorizontalAlignment(SwingConstants.LEFT);
             panelResumenTurnoNumeros.add(labelTextoEfectivoEsperado);
 
-            JLabel labelEfectivoEsperado = crearLabel("$" + String.format("%.2f", efectivoRetirado + calcularTotalVentas() + dineroInicial), 25, 300, 155, 150, 70, "", colorBlanco);
+            JLabel labelEfectivoEsperado = crearLabel(
+                    "$" + String.format("%.2f", efectivoRetirado + calcularTotalVentas() + dineroInicial), 25, 300, 155,
+                    150, 70, "", colorBlanco);
             labelEfectivoEsperado.setHorizontalAlignment(SwingConstants.RIGHT);
             panelResumenTurnoNumeros.add(labelEfectivoEsperado);
 
@@ -1019,14 +1025,14 @@ public class CafeteriaApp {
             totalCobradoDia[i] = 0;
         }
 
-        
-    dineroInicial = 0;
-    efectivoRetirado = 0;
+        dineroInicial = 0;
+        efectivoRetirado = 0;
 
     }
 
-    //Actualizar Caja
-    public static void actualizarCaja(JLabel labelEntradasNetas, JLabel labelVentas, JLabel labelEfectivo, JLabel labelFondoInicial) {
+    // Actualizar Caja
+    public static void actualizarCaja(JLabel labelEntradasNetas, JLabel labelVentas, JLabel labelEfectivo,
+            JLabel labelFondoInicial) {
         labelEntradasNetas.setText("$" + String.format("%.2f", calcularTotalVentas()));
         labelVentas.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas()));
         labelEfectivo.setText("$" + String.format("%.2f", dineroInicial + calcularTotalVentas() + efectivoRetirado));
