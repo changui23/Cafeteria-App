@@ -5,7 +5,6 @@ public class CafeteriaApp {
 
     public static String colorCafeClaro = "#9A7B4F";
     public static String colorBlanco = "#ffffff";
-    public static String colorGrisClaro = "#a4a4a4";
 
     static String[] productos = {
             // Cafes
@@ -588,23 +587,47 @@ public class CafeteriaApp {
     }
 
     // Crear boton
-    public static JButton crearBoton(String texto, int width, int height, int size, String colorBackground,
-            String colorForeground, int x, int y) {
-        JButton boton = new JButton(texto);
+    public static JButton crearBoton(String texto, int width, int height, int size,
+            String colorBackground, String colorForeground, int x, int y) {
+
+        JButton boton = new JButton(texto) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+
+                g2.setRenderingHint(
+                        RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+
+                g2.dispose();
+
+                super.paintComponent(g);
+            }
+        };
 
         boton.setPreferredSize(new Dimension(width, height));
 
-        // Estilo del Boton
+        // Estilo del botón
         boton.setFont(new Font("Arial", Font.BOLD, size));
+
         if (!colorBackground.equals("")) {
             boton.setBackground(Color.decode(colorBackground));
         }
+
         if (colorForeground.equals("")) {
             boton.setForeground(Color.BLACK);
         } else {
             boton.setForeground(Color.decode(colorForeground));
         }
+
         boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+        boton.setContentAreaFilled(false);
+        boton.setOpaque(false);
+
         boton.setBounds(x, y, width, height);
 
         return boton;
