@@ -39,4 +39,4 @@ Sigue estos pasos para clonar el proyecto en tu computadora y editarlo o probarl
 Abre tu terminal y ejecuta el siguiente comando:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <https://github.com/changui23/Cafeteria-App>
